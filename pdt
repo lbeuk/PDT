@@ -19,7 +19,4 @@ if __name__ == "__main__" and len(new_argv) > 1:
         case "exec":
             prepend_argv(["-e", "HOME=/home/vscode"])
 
-with open("/home/lukebeukelman/pdt.log", "a+") as f:
-    print(f"Running command: {new_argv}", file=f)
-
 os.execvp(new_argv[0], new_argv)
