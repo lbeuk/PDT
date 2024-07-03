@@ -1,0 +1,25 @@
+#!/usr/bin/python3
+
+import sys
+import os
+
+new_argv = sys.argv
+new_argv[0] = "podman"
+
+def prepend_argv(args):
+    i = 2
+    for arg in args:
+        new_argv.insert(i, arg)
+        i += 1
+
+if __name__ == "__main__" and len(new_argv) > 1:
+    match new_argv[1]:
+        case "run":
+            prepend_argv(["--privileged", "--userns=keep-id", "-e", "HOME=/home/vscode"])
+        case "exec":
+            prepend_argv(["-e", "HOME=/home/vscode"])
+
+with open("/home/lukebeukelman/pdt.log", "a+") as f:
+    print(f"Running command: {new_argv}", file=f)
+
+os.execvp(new_argv[0], new_argv)
